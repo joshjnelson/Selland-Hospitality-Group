@@ -197,6 +197,7 @@ body {
     grid-template-columns: auto auto;
     justify-content: center;
     justify-items: center;
+    column-gap: clamp(40px, 5vw, 80px);
     row-gap: clamp(90px, 12vh, 140px);
     margin-top: clamp(40px, 6vh, 80px);
   }
