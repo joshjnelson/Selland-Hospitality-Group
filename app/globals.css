@@ -1,300 +1,239 @@
-/* ==========================================================================
-   GLOBAL "NEWB KNOBS" (edit these first)
-   ========================================================================== */
+/* =============================================
+   DESIGN VARIABLES
+   Change these to customize the look.
+   ============================================= */
 
-   :root {
-    /* Border thickness */
-    --frame-width: 22px;
-  
-    /* Main colors */
-    --green: #5d6439;
-    --paper: #ebe3d7;
-  
-    /* Notched corners */
-    --cut: 28px;
-  
-    /* Inside padding */
-    --pad-x: 64px;
-    --pad-y: 72px;
-  
-    /* Center wordmark placement */
-    --hero-top: clamp(96px, 16vh, 180px);
-    --hero-bottom: clamp(10px, 2.2vh, 26px);
-    --wordmark-h: clamp(200px, 30vh, 320px);
-  
-    /* Desktop pinned bottom row */
-    --logos-bottom: 150px;
-    --row-gap: 50px;
-    --bottom-reserve: 240px;
-  
-    /* Hover */
-    --hover-lift: 3px;
-    --hover-scale: 1.02;
-  
-    /* Safe area */
-    --safe-top: env(safe-area-inset-top, 0px);
-    --safe-right: env(safe-area-inset-right, 0px);
-    --safe-bottom: env(safe-area-inset-bottom, 0px);
-    --safe-left: env(safe-area-inset-left, 0px);
-  
-    /* Logo sizing system */
-    --logo-base-h: 92px;
-    --scale-ella: 1.12;
-    --scale-kitchen: 1.12;
-    --scale-obo: 0.95;
-    --scale-sellands: 1.00;
-  }
-  
-  /* Force light UI so Android nav area matches poster */
-  html {
-    color-scheme: light;
-  }
-  
-  * { box-sizing: border-box; }
-  
-  html, body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-  }
-  
-  /* ==========================================================================
-     DESKTOP / WIDE SCREEN POSTER MODE
-     ========================================================================== */
-  
-  body {
-    position: fixed;
-    inset: 0;
-    overflow: hidden;
-    background: var(--green);
-    font-family: var(--font-brand), serif;
-  }
-  
-  .frame {
-    position: absolute;
-    inset: 0;
-    padding: var(--frame-width);
-    overflow: hidden;
-  }
-  
-  .canvas {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: var(--paper);
-  
-    clip-path: polygon(
-      var(--cut) 0,
-      calc(100% - var(--cut)) 0,
-      100% var(--cut),
-      100% calc(100% - var(--cut)),
-      calc(100% - var(--cut)) 100%,
-      var(--cut) 100%,
-      0 calc(100% - var(--cut)),
-      0 var(--cut)
-    );
-  
-    padding:
-      calc(var(--pad-y) + var(--safe-top))
-      calc(var(--pad-x) + var(--safe-right))
-      calc(var(--pad-y) + var(--safe-bottom))
-      calc(var(--pad-x) + var(--safe-left));
-  
-    padding-bottom: calc(var(--pad-y) + var(--safe-bottom) + var(--bottom-reserve));
-    overflow: hidden;
-  }
-  
-  /* Center wordmark */
-  
-  .heroWordmark {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin: var(--hero-top) 0 var(--hero-bottom);
-  }
-  
-  .wordmark {
-    width: clamp(620px, 82vw, 1280px);
-    height: var(--wordmark-h);
-    background: var(--green);
-  
-    -webkit-mask-image: var(--mask);
-    mask-image: var(--mask);
-    mask-repeat: no-repeat;
-    mask-position: center;
-    mask-size: contain;
-  }
-  
-  /* Emblem */
-  
-  .emblem {
-    position: absolute;
-    top: calc((var(--pad-y) * 1.05) + var(--safe-top));
-    right: calc(var(--pad-x) + var(--safe-right));
-    width: 150px;
-    height: 150px;
-    background: var(--green);
-  
-    -webkit-mask-image: var(--mask);
-    mask-image: var(--mask);
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-  }
-  
-  /* Bottom row desktop */
-  
+:root {
+  /* Colors */
+  --green: #5d6439;
+  --paper: #ebe3d7;
+
+  /* Green border around the page */
+  --frame: 22px;
+
+  /* Rounded corner size */
+  --corner: 28px;
+
+  /* Inner padding (scales smoothly between mobile and desktop) */
+  --pad-x: clamp(20px, 5vw, 64px);
+  --pad-y: clamp(28px, 5vh, 72px);
+
+  /* Center wordmark (main SHG logo) */
+  --wordmark-width: min(82vw, 1280px);
+  --wordmark-height: clamp(140px, 30vh, 320px);
+
+  /* Corner emblem */
+  --emblem-size: clamp(86px, 10vw, 150px);
+
+  /* Bottom logo links */
+  --logo-height: clamp(58px, 6vw, 92px);
+  --logo-gap: clamp(24px, 2vw, 32px);
+
+  /* Per-logo scale tweaks (make individual logos bigger/smaller) */
+  --scale-kitchen: 1.12;
+  --scale-ella: 1.12;
+  --scale-sellands: 1.00;
+  --scale-obo: 0.95;
+
+  /* Hover animation */
+  --hover-lift: 3px;
+  --hover-scale: 1.02;
+
+  /* Phone notch safe areas */
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+}
+
+/* =============================================
+   RESET
+   ============================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: light;
+}
+
+/* =============================================
+   PAGE LAYOUT
+   ============================================= */
+
+body {
+  background: var(--green);
+  min-height: 100dvh;
+  font-family: system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Green border frame */
+.frame {
+  padding: var(--frame);
+  min-height: 100dvh;
+}
+
+/* Paper-colored content area */
+.canvas {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100dvh - var(--frame) * 2);
+  background: var(--paper);
+  clip-path: polygon(
+    var(--corner) 0,
+    calc(100% - var(--corner)) 0,
+    100% var(--corner),
+    100% calc(100% - var(--corner)),
+    calc(100% - var(--corner)) 100%,
+    var(--corner) 100%,
+    0 calc(100% - var(--corner)),
+    0 var(--corner)
+  );
+  padding:
+    calc(var(--pad-y) + var(--safe-t))
+    calc(var(--pad-x) + var(--safe-r))
+    calc(var(--pad-y) + var(--safe-b))
+    calc(var(--pad-x) + var(--safe-l));
+}
+
+/* =============================================
+   WORDMARK (main centered logo)
+   flex: 1 fills available space so links
+   are pushed to the bottom naturally.
+   ============================================= */
+
+.heroWordmark {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+}
+
+.wordmark {
+  width: var(--wordmark-width);
+  height: var(--wordmark-height);
+  background: var(--green);
+  -webkit-mask: var(--mask) center / contain no-repeat;
+  mask: var(--mask) center / contain no-repeat;
+}
+
+/* =============================================
+   EMBLEM (decorative corner logo)
+   Desktop: pinned top-right via absolute
+   Mobile: flows below the wordmark
+   ============================================= */
+
+.emblem {
+  position: absolute;
+  top: calc(var(--pad-y) * 1.05 + var(--safe-t));
+  right: calc(var(--pad-x) + var(--safe-r));
+  width: var(--emblem-size);
+  height: var(--emblem-size);
+  background: var(--green);
+  -webkit-mask: var(--mask) center / contain no-repeat;
+  mask: var(--mask) center / contain no-repeat;
+}
+
+/* =============================================
+   LOGO LINKS (restaurant row at bottom)
+   Wide (>1500px): 4 in a row
+   Mid (901-1500px): 2x2 grid
+   Mobile (<900px): single column
+   ============================================= */
+
+.linksRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--logo-gap);
+  width: 100%;
+  padding-bottom: clamp(40px, 12vh, 160px);
+}
+
+.logoLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 160ms ease;
+}
+
+.logoLink:hover,
+.logoLink:focus-visible {
+  transform: translateY(calc(-1 * var(--hover-lift))) scale(var(--hover-scale));
+}
+
+.logoMark {
+  background: var(--green);
+  -webkit-mask: var(--mask) center / contain no-repeat;
+  mask: var(--mask) center / contain no-repeat;
+  height: calc(var(--logo-height) * var(--s, 1));
+  aspect-ratio: var(--ar);
+}
+
+/* Individual logo proportions (--ar = width:height ratio) */
+.logo-kitchen  { --ar: 3.57; --s: var(--scale-kitchen); }
+.logo-ella     { --ar: 3.02; --s: var(--scale-ella); }
+.logo-sellands { --ar: 3.57; --s: var(--scale-sellands); }
+.logo-obo      { --ar: 3.08; --s: var(--scale-obo); }
+
+/* =============================================
+   MID-SIZE LAYOUT (tablets & small laptops)
+   2 logos on top, 2 on bottom, centered
+   ============================================= */
+
+@media (max-width: 1500px) and (min-width: 901px) {
   .linksRow {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: calc(var(--logos-bottom) + var(--safe-bottom));
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto;
     justify-content: center;
-    align-items: center;
-    gap: var(--row-gap);
+    justify-items: center;
+    row-gap: clamp(90px, 12vh, 140px);
+    margin-top: clamp(40px, 6vh, 80px);
   }
-  
-  .logoStage {
-    width: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform: translateY(0) scale(1);
-    transition: transform 160ms ease;
+}
+
+/* =============================================
+   MOBILE LAYOUT (phones & portrait tablets)
+   ============================================= */
+
+@media (max-width: 900px) {
+  .heroWordmark {
+    flex: none;
+    padding-top: 70px;
   }
-  
-  .logoStage:hover,
-  .logoStage:focus-visible {
-    transform: translateY(calc(var(--hover-lift) * -1)) scale(var(--hover-scale));
+
+  .wordmark {
+    width: min(78vw, 420px);
   }
-  
-  .logoMark {
-    background: var(--green);
-  
-    -webkit-mask-image: var(--mask);
-    mask-image: var(--mask);
-    mask-repeat: no-repeat;
-    mask-position: center;
-    mask-size: contain;
-  
-    height: calc(var(--logo-base-h) * var(--logo-scale));
-    width: calc((var(--logo-base-h) * var(--logo-scale)) * var(--logo-ar));
+
+  .emblem {
+    position: static;
+    margin: 35px auto 80px;
   }
-  
-  /* Per logo */
-  
-  .logo-ella     { --logo-ar: 3.02; --logo-scale: var(--scale-ella); }
-  .logo-kitchen  { --logo-ar: 3.57; --logo-scale: var(--scale-kitchen); }
-  .logo-obo      { --logo-ar: 3.08; --logo-scale: var(--scale-obo); }
-  .logo-sellands { --logo-ar: 3.57; --logo-scale: var(--scale-sellands); }
-  
-  /* Seal */
-  
-  .seal {
-    position: absolute;
-    right: calc(var(--pad-x) + var(--safe-right));
-    bottom: calc((var(--pad-y) * 0.65) + var(--safe-bottom));
-    width: 92px;
-    height: 92px;
-    background: var(--green);
-  
-    -webkit-mask-image: var(--mask);
-    mask-image: var(--mask);
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    opacity: 0.18;
+
+  .linksRow {
+    flex-direction: column;
+    gap: 80px;
+    padding-bottom: 60px;
   }
-  
-  /* ==========================================================================
-     MOBILE + PORTRAIT TABLET MODE (BREAKPOINT ONLY CHANGE)
-     IMPORTANT: ALL VERTICAL SPACING BELOW IS UNCHANGED.
-     ========================================================================== */
-  
-  /* ✅ breakpoint (switch sooner) */
-  @media (max-width: 1224px) {
-  
-    :root {
-      --frame-width: 14px;
-      --pad-x: 18px;
-      --pad-y: 26px;
-      --cut: 16px;
-  
-      --hero-top: 70px;
-      --hero-bottom: 0px;
-      --wordmark-h: 140px;
-  
-      --mobile-gap-wordmark-to-emblem: 35px;
-      --mobile-gap-emblem-to-links: 110px;
-      --mobile-links-gap: 90px;
-      --mobile-emblem-size: 86px;
-      --mobile-bottom-pad: 100px;
-  
-      --logo-base-h: 74px;
-  
-      /* border stroke proportions on smaller screens */
-      --border-line: 2px;
-      --border-inset: 8px;
-    }
-  
-    html, body { height: auto; }
-  
-    body {
-      position: static;
-      overflow: auto;
-      background: var(--paper);
-    }
-  
-    .frame {
-      position: static;
-      padding: var(--frame-width);
-      min-height: 100dvh;
-      background: var(--green);
-      overflow: visible;
-    }
-  
-    .canvas {
-      height: auto;
-      min-height: calc(100dvh - (var(--frame-width) * 2));
-      overflow: visible;
-      padding-bottom: calc(var(--pad-y) + var(--safe-bottom) + var(--mobile-bottom-pad));
-    }
-  
-    .wordmark {
-      width: min(78vw, 420px);
-      height: var(--wordmark-h);
-    }
-  
-    .emblem {
-      position: static;
-      width: var(--mobile-emblem-size);
-      height: var(--mobile-emblem-size);
-      margin:
-        var(--mobile-gap-wordmark-to-emblem)
-        auto
-        var(--mobile-gap-emblem-to-links);
-    }
-  
-    .linksRow {
-      position: static;
-      flex-direction: column;
-      align-items: center;
-      gap: var(--mobile-links-gap);
-      margin: 0;
-    }
-  
-    .logoStage { width: 100%; }
-  
-    .seal {
-      width: 64px;
-      height: 64px;
-    }
+}
+
+/* =============================================
+   ACCESSIBILITY
+   ============================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .logoLink {
+    transition: none;
   }
-  
-  /* Reduced motion */
-  
-  @media (prefers-reduced-motion: reduce) {
-    .logoStage { transition: none; }
-  }
-  
+}

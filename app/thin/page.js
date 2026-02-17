@@ -81,7 +81,7 @@ export default function ThinPage() {
             {links.map((l) => (
               <a
                 key={l.key}
-                className="logoStage"
+                className="logoLink"
                 href={l.href}
                 target="_blank"
                 rel="noreferrer"
