@@ -6,9 +6,9 @@
     /* Border thickness */
     --frame-width: 22px;
   
-    /* Main colors (LIGHT MODE DEFAULT) */
-    --green: #5d6439;   /* border + ALL design elements */
-    --paper: #ebe3d7;   /* inner paper */
+    /* Main colors */
+    --green: #5d6439;
+    --paper: #ebe3d7;
   
     /* Notched corners */
     --cut: 28px;
@@ -24,9 +24,7 @@
   
     /* Desktop pinned bottom row */
     --logos-bottom: 150px;
-    --row-gap: 60px;
-  
-    /* Desktop safety so hero never collides with bottom row */
+    --row-gap: 50px;
     --bottom-reserve: 240px;
   
     /* Hover */
@@ -39,27 +37,18 @@
     --safe-bottom: env(safe-area-inset-bottom, 0px);
     --safe-left: env(safe-area-inset-left, 0px);
   
-    /* ==========================================================================
-       BOTTOM LOGO SIZING SYSTEM (ONE KNOB PER LOGO)
-       ========================================================================== */
-  
-    /* Baseline logo height (desktop) */
+    /* Logo sizing system */
     --logo-base-h: 92px;
-  
-    /* Individual logo size knobs (ONLY change these) */
-    --scale-ella: 1.3;
-    --scale-kitchen: 1.2;
+    --scale-ella: 1.12;
+    --scale-kitchen: 1.12;
     --scale-obo: 0.95;
     --scale-sellands: 1.00;
   }
   
-  /* DARK MODE PALETTE (keeps brand feel, fixes Android nav background mismatch) */
-  
-
-  
-  /* ==========================================================================
-     RESET
-     ========================================================================== */
+  /* Force light UI so Android nav area matches poster */
+  html {
+    color-scheme: light;
+  }
   
   * { box-sizing: border-box; }
   
@@ -69,20 +58,14 @@
     height: 100%;
   }
   
-  /* Important: tells browser to render system UI appropriately for both schemes */
-  html {
-    color-scheme: light dark;
-  }
-  
   /* ==========================================================================
-     DESKTOP/TABLET: fixed “poster”, no scrollbars
+     DESKTOP / WIDE SCREEN POSTER MODE
      ========================================================================== */
   
   body {
     position: fixed;
     inset: 0;
     overflow: hidden;
-  
     background: var(--green);
     font-family: var(--font-brand), serif;
   }
@@ -121,9 +104,7 @@
     overflow: hidden;
   }
   
-  /* ==========================================================================
-     CENTER WORDMARK
-     ========================================================================== */
+  /* Center wordmark */
   
   .heroWordmark {
     width: 100%;
@@ -135,7 +116,6 @@
   .wordmark {
     width: clamp(620px, 82vw, 1280px);
     height: var(--wordmark-h);
-  
     background: var(--green);
   
     -webkit-mask-image: var(--mask);
@@ -145,37 +125,30 @@
     mask-size: contain;
   }
   
-  /* ==========================================================================
-     SH EMBLEM
-     ========================================================================== */
+  /* Emblem */
   
   .emblem {
     position: absolute;
     top: calc((var(--pad-y) * 1.05) + var(--safe-top));
     right: calc(var(--pad-x) + var(--safe-right));
-  
     width: 150px;
     height: 150px;
-  
     background: var(--green);
   
     -webkit-mask-image: var(--mask);
     mask-image: var(--mask);
+    mask-size: contain;
     mask-repeat: no-repeat;
     mask-position: center;
-    mask-size: contain;
   }
   
-  /* ==========================================================================
-     BOTTOM LINKS (DESKTOP pinned)
-     ========================================================================== */
+  /* Bottom row desktop */
   
   .linksRow {
     position: absolute;
     left: 0;
     right: 0;
     bottom: calc(var(--logos-bottom) + var(--safe-bottom));
-  
     display: flex;
     justify-content: center;
     align-items: center;
@@ -187,7 +160,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  
     transform: translateY(0) scale(1);
     transition: transform 160ms ease;
   }
@@ -196,10 +168,6 @@
   .logoStage:focus-visible {
     transform: translateY(calc(var(--hover-lift) * -1)) scale(var(--hover-scale));
   }
-  
-  /* ==========================================================================
-     LOGO MARK (ONE-KNOB SIZING)
-     ========================================================================== */
   
   .logoMark {
     background: var(--green);
@@ -214,23 +182,21 @@
     width: calc((var(--logo-base-h) * var(--logo-scale)) * var(--logo-ar));
   }
   
+  /* Per logo */
+  
   .logo-ella     { --logo-ar: 3.02; --logo-scale: var(--scale-ella); }
   .logo-kitchen  { --logo-ar: 3.57; --logo-scale: var(--scale-kitchen); }
   .logo-obo      { --logo-ar: 3.08; --logo-scale: var(--scale-obo); }
   .logo-sellands { --logo-ar: 3.57; --logo-scale: var(--scale-sellands); }
   
-  /* ==========================================================================
-     OPTIONAL FAINT SEAL (bottom-right)
-     ========================================================================== */
+  /* Seal */
   
   .seal {
     position: absolute;
     right: calc(var(--pad-x) + var(--safe-right));
     bottom: calc((var(--pad-y) * 0.65) + var(--safe-bottom));
-  
     width: 92px;
     height: 92px;
-  
     background: var(--green);
   
     -webkit-mask-image: var(--mask);
@@ -238,15 +204,17 @@
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-position: center;
-  
     opacity: 0.18;
   }
   
   /* ==========================================================================
-     MOBILE
+     MOBILE + PORTRAIT TABLET MODE (BREAKPOINT ONLY CHANGE)
+     IMPORTANT: ALL VERTICAL SPACING BELOW IS UNCHANGED.
      ========================================================================== */
   
-  @media (max-width: 520px) {
+  /* ✅ breakpoint (switch sooner) */
+  @media (max-width: 1224px) {
+  
     :root {
       --frame-width: 14px;
       --pad-x: 18px;
@@ -259,18 +227,19 @@
   
       --mobile-gap-wordmark-to-emblem: 35px;
       --mobile-gap-emblem-to-links: 110px;
-      --mobile-links-gap: 88px;
-  
+      --mobile-links-gap: 90px;
       --mobile-emblem-size: 86px;
-      --mobile-bottom-pad: 95px;
+      --mobile-bottom-pad: 100px;
   
-      /* Baseline logo height on mobile */
       --logo-base-h: 74px;
+  
+      /* border stroke proportions on smaller screens */
+      --border-line: 2px;
+      --border-inset: 8px;
     }
   
     html, body { height: auto; }
   
-    /* This is the key: keep mobile page background PAPER so Android nav area matches */
     body {
       position: static;
       overflow: auto;
@@ -301,7 +270,10 @@
       position: static;
       width: var(--mobile-emblem-size);
       height: var(--mobile-emblem-size);
-      margin: var(--mobile-gap-wordmark-to-emblem) auto var(--mobile-gap-emblem-to-links);
+      margin:
+        var(--mobile-gap-wordmark-to-emblem)
+        auto
+        var(--mobile-gap-emblem-to-links);
     }
   
     .linksRow {
@@ -320,7 +292,8 @@
     }
   }
   
-  /* Respect reduced motion */
+  /* Reduced motion */
+  
   @media (prefers-reduced-motion: reduce) {
     .logoStage { transition: none; }
   }

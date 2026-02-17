@@ -1,51 +1,108 @@
-// app/page.js
-// Single page “linktree” layout.
-// Edit the `links` array to change logos/URLs (NOT sizes).
-// Sizes are controlled in CSS by changing ONE number per logo: --s
+/* ============================================================================
+   SHG LINK PAGE
+   - poster-style layout
+   - masked SVG logos
+   - desktop pinned layout + mobile flow layout
+   - bottom links reordered + linked
+   ============================================================================ */
 
-const links = [
-  { id: "ella", name: "Ella", href: "#", logo: "/logos/ella-logo.svg" },
-  { id: "kitchen", name: "Kitchen", href: "#", logo: "/logos/kitchen-logo.svg" },
-  { id: "obo", name: "OBO", href: "#", logo: "/logos/obo-logo.svg" },
-  { id: "sellands", name: "Selland’s", href: "#", logo: "/logos/sellands-logo.svg" },
-];
-
-export default function Page() {
-  return (
-    <main className="frame">
-      <section className="canvas">
-        {/* Center wordmark */}
-        <div className="heroWordmark">
-          <span className="wordmark" style={{ "--mask": "url(/logos/shg-logo.svg)" }} />
-        </div>
-
-        {/* SH emblem
-            - Desktop: positioned top-right (absolute)
-            - Mobile: becomes static and appears under the wordmark
-        */}
-        <div className="emblem" aria-hidden="true" style={{ "--mask": "url(/logos/shg-emblem.svg)" }} />
-
-        {/* Bottom logo links */}
-        <nav className="linksRow" aria-label="Links">
-          {links.map((l) => (
+   export default function Page() {
+    return (
+      <main className="frame">
+        {/* =========================================================
+           PAPER CANVAS
+           Everything lives inside this container
+           ========================================================= */}
+        <section className="canvas">
+          {/* =========================================================
+             CENTER WORDMARK (big SHG logo)
+             ========================================================= */}
+          <div className="heroWordmark">
+            <div
+              className="wordmark"
+              style={{ "--mask": "url('/logos/shg-logo.svg')" }}
+              aria-label="Selland Hospitality Group"
+            />
+          </div>
+  
+          {/* =========================================================
+             SH EMBLEM
+             Desktop: top-right (CSS handles positioning)
+             Mobile: flows under wordmark (CSS switches to static)
+             ========================================================= */}
+          <div
+            className="emblem"
+            style={{ "--mask": "url('/logos/shg-emblem.svg')" }}
+            aria-label="SH emblem"
+          />
+  
+          {/* =========================================================
+             BOTTOM LINKS — ORDERED + LINKED
+             Order requested:
+             1) Kitchen
+             2) Ella
+             3) Sellands
+             4) OBO
+             ========================================================= */}
+          <div className="linksRow">
+            {/* 1 — THE KITCHEN */}
             <a
-              key={l.id}
               className="logoStage"
-              href={l.href}
-              aria-label={l.name}
-              title={l.name}
+              href="https://thekitchenrestaurant.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="The Kitchen Restaurant"
             >
-              <span
-                className={`logoMark logo-${l.id}`}
-                style={{ "--mask": `url(${l.logo})` }}
+              <div
+                className="logoMark logo-kitchen"
+                style={{ "--mask": "url('/logos/kitchen-logo.svg')" }}
               />
             </a>
-          ))}
-        </nav>
-
-        {/* Decorative seal (optional) */}
-        <div className="seal" aria-hidden="true" style={{ "--mask": "url(/logos/SH_logo_white.svg)" }} />
-      </section>
-    </main>
-  );
-}
+  
+            {/* 2 — ELLA */}
+            <a
+              className="logoStage"
+              href="https://elladiningroomandbar.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Ella Dining Room & Bar"
+            >
+              <div
+                className="logoMark logo-ella"
+                style={{ "--mask": "url('/logos/ella-logo.svg')" }}
+              />
+            </a>
+  
+            {/* 3 — SELLANDS */}
+            <a
+              className="logoStage"
+              href="https://www.sellands.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Sellands Neighborhood Cafe & Bar"
+            >
+              <div
+                className="logoMark logo-sellands"
+                style={{ "--mask": "url('/logos/sellands-logo.svg')" }}
+              />
+            </a>
+  
+            {/* 4 — OBO */}
+            <a
+              className="logoStage"
+              href="https://oboitalian.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="OBO Italian"
+            >
+              <div
+                className="logoMark logo-obo"
+                style={{ "--mask": "url('/logos/obo-logo.svg')" }}
+              />
+            </a>
+          </div>
+        </section>
+      </main>
+    );
+  }
+  
