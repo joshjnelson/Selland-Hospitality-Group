@@ -28,7 +28,7 @@
      Size and position on desktop.
      Increase a value to move it further from that edge. */
   --emblem-size:       clamp(86px, 10vw, 150px);  /* 86px → 150px */
-  --emblem-from-top:   900px;   /* distance down from the top edge */
+  --emblem-from-top:   75px;   /* distance down from the top edge */
   --emblem-from-right: 64px;   /* distance in from the right edge */
 
   /* ── BOTTOM LOGO ROW ─────────────────────────────────
