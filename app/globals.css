@@ -86,6 +86,25 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: calc(100dvh - var(--frame) * 2);
+  overflow: hidden;
+  padding:
+    calc(var(--pad-y) + var(--safe-t))
+    calc(var(--pad-x) + var(--safe-r))
+    calc(var(--pad-y) + var(--safe-b))
+    calc(var(--pad-x) + var(--safe-l));
+}
+
+/*
+  The paper fill lives on ::before, NOT on .canvas directly.
+  clip-path on a flat pseudo-element lets the GPU anti-alias the
+  edge cleanly; applying it to the flex container causes the
+  rasterizer to stair-step on right/bottom corners in Chrome.
+  translateZ(0) promotes the layer so sub-pixel AA kicks in.
+*/
+.canvas::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   background: var(--paper);
   clip-path: polygon(
     var(--corner) 0,
@@ -97,11 +116,13 @@ body {
     0 calc(100% - var(--corner)),
     0 var(--corner)
   );
-  padding:
-    calc(var(--pad-y) + var(--safe-t))
-    calc(var(--pad-x) + var(--safe-r))
-    calc(var(--pad-y) + var(--safe-b))
-    calc(var(--pad-x) + var(--safe-l));
+  transform: translateZ(0);
+}
+
+/* Lift all direct children above the ::before background layer */
+.canvas > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* =============================================
