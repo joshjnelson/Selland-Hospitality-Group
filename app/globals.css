@@ -34,15 +34,21 @@
   /* ── BOTTOM LOGO ROW ─────────────────────────────────
      The four restaurant logos.                          */
   --logo-height:       clamp(58px, 6vw, 92px);    /* 58px → 92px */
-  --logo-gap:          clamp(24px, 2vw, 32px);    /* gap between logos */
   --logos-from-bottom: clamp(40px, 12vh, 160px);  /* distance from the bottom edge */
+
+  /* ── GAPS BETWEEN LOGOS (desktop 4-in-a-row only) ────
+     Space between each pair of logos.
+     Increase to spread them apart, decrease to tighten. */
+  --gap-kitchen-ella:   32px;   /* Kitchen  →  Ella */
+  --gap-ella-sellands:  32px;   /* Ella     →  Sellands */
+  --gap-sellands-obo:   32px;   /* Sellands →  OBO */
 
   /* ── PER-LOGO SIZE TWEAKS ─────────────────────────────
      1.0 = normal.  1.2 = 20% bigger.  0.8 = 20% smaller. */
-  --scale-kitchen:  1.12;
-  --scale-ella:     1.12;
-  --scale-sellands: 1.00;
-  --scale-obo:      0.95;
+  --scale-kitchen:  1.22;
+  --scale-ella:     1.32;
+  --scale-sellands: 1.05;
+  --scale-obo:      0.92;
 
   /* ── HOVER EFFECT ─────────────────────────────────────
      How logos respond when you mouse over them.          */
@@ -188,7 +194,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: var(--logo-gap);
+  gap: 0;
   width: 100%;
   padding-bottom: var(--logos-from-bottom);
 }
@@ -219,6 +225,11 @@ body {
 .logo-sellands { --ar: 3.57; --s: var(--scale-sellands); }
 .logo-obo      { --ar: 3.08; --s: var(--scale-obo); }
 
+/* Individual gaps — desktop 4-in-a-row only (reset in grid + mobile below) */
+.linksRow > .logoLink:nth-child(1) { margin-right: var(--gap-kitchen-ella); }
+.linksRow > .logoLink:nth-child(2) { margin-right: var(--gap-ella-sellands); }
+.linksRow > .logoLink:nth-child(3) { margin-right: var(--gap-sellands-obo); }
+
 /* =============================================
    MID-SIZE LAYOUT (tablets & small laptops)
    2 logos on top, 2 on bottom, centered
@@ -234,6 +245,8 @@ body {
     row-gap: clamp(90px, 12vh, 140px);
     margin-top: clamp(40px, 6vh, 80px);
   }
+  /* Grid handles its own spacing — clear desktop margins */
+  .linksRow > .logoLink { margin-right: 0; }
 }
 
 /* =============================================
@@ -257,9 +270,12 @@ body {
 
   .linksRow {
     flex-direction: column;
+    align-items: center;  /* keep logos centered on the vertical axis */
     gap: 80px;
     padding-bottom: 60px;
   }
+  /* Clear desktop margins — column gap handles mobile spacing */
+  .linksRow > .logoLink { margin-right: 0; }
 }
 
 /* =============================================
