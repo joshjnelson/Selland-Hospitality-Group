@@ -224,10 +224,12 @@ body {
 .logo-sellands { --ar: 3.57; --s: var(--scale-sellands); }
 .logo-obo      { --ar: 3.08; --s: var(--scale-obo); }
 
-/* Individual gaps — desktop 4-in-a-row only (reset in grid + mobile below) */
-.linksRow > .logoLink:nth-child(1) { margin-right: var(--gap-kitchen-ella); }
-.linksRow > .logoLink:nth-child(2) { margin-right: var(--gap-ella-sellands); }
-.linksRow > .logoLink:nth-child(3) { margin-right: var(--gap-sellands-obo); }
+/* Individual gaps — desktop 4-in-a-row only */
+@media (min-width: 1501px) {
+  .linksRow > .logoLink:nth-child(1) { margin-right: var(--gap-kitchen-ella); }
+  .linksRow > .logoLink:nth-child(2) { margin-right: var(--gap-ella-sellands); }
+  .linksRow > .logoLink:nth-child(3) { margin-right: var(--gap-sellands-obo); }
+}
 
 /* =============================================
    MID-SIZE LAYOUT (tablets & small laptops)
@@ -244,8 +246,7 @@ body {
     row-gap: clamp(90px, 12vh, 140px);
     margin-top: clamp(40px, 6vh, 80px);
   }
-  /* Grid handles its own spacing — clear desktop margins */
-  .linksRow > .logoLink { margin-right: 0; }
+  /* Grid handles its own spacing */
 }
 
 /* =============================================
@@ -273,8 +274,6 @@ body {
     gap: 80px;
     padding-bottom: 60px;
   }
-  /* Clear desktop margins — column gap handles mobile spacing */
-  .linksRow > .logoLink { margin-right: 0; }
 }
 
 /* =============================================
