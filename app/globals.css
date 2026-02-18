@@ -28,7 +28,7 @@
      Size and position on desktop.
      Increase a value to move it further from that edge. */
   --emblem-size:       clamp(86px, 10vw, 150px);  /* 86px → 150px */
-  --emblem-from-top:   73px;   /* distance down from the top edge */
+  --emblem-from-top:   900px;   /* distance down from the top edge */
   --emblem-from-right: 64px;   /* distance in from the right edge */
 
   /* ── BOTTOM LOGO ROW ─────────────────────────────────
@@ -95,17 +95,18 @@ body {
 .frame {
   padding: var(--frame);
   min-height: 100dvh;
+  /* Promote to compositor layer — stabilises clip-path AA on .canvas */
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 /*
   Paper-colored content area with chamfered corners.
 
-  Corners are drawn with four inline SVG elements (one per corner),
-  each containing a triangle polygon. The SVG renderer applies
-  proper sub-pixel anti-aliasing to the diagonal edge regardless of
-  DPR or compositing layer — unlike clip-path (GPU-rasterised) or
-  CSS gradient tiles (feather too thin on 1× screens).
-  The SVGs read --green and --corner directly from CSS variables.
+  clip-path: polygon() defines the octagonal chamfered shape.
+  GPU layer promotion forces the browser to rasterise the clip-path on its
+  own compositor layer, giving smooth sub-pixel AA on the diagonal edges
+  across all hardware and DPR values.
 */
 .canvas {
   position: relative;
@@ -117,25 +118,29 @@ body {
 
   background-color: var(--paper);
 
+  clip-path: polygon(
+    var(--corner) 0%,
+    calc(100% - var(--corner)) 0%,
+    100% var(--corner),
+    100% calc(100% - var(--corner)),
+    calc(100% - var(--corner)) 100%,
+    var(--corner) 100%,
+    0% calc(100% - var(--corner)),
+    0% var(--corner)
+  );
+
+  /* GPU layer promotion — smooths clip-path diagonal edges on all hardware */
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  outline: 1px solid transparent;
+
   padding:
     calc(var(--pad-y) + var(--safe-t))
     calc(var(--pad-x) + var(--safe-r))
     calc(var(--pad-y) + var(--safe-b))
     calc(var(--pad-x) + var(--safe-l));
 }
-
-/* Chamfered corner SVGs */
-.chamfer {
-  position: absolute;
-  width: var(--corner);
-  height: var(--corner);
-  pointer-events: none;
-  fill: var(--green);
-}
-.chamfer-tl { top: 0; left: 0; }
-.chamfer-tr { top: 0; right: 0; }
-.chamfer-bl { bottom: 0; left: 0; }
-.chamfer-br { bottom: 0; right: 0; }
 
 /* =============================================
    WORDMARK (main centered logo)
