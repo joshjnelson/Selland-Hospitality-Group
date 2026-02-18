@@ -1,49 +1,61 @@
-/* =============================================
-   DESIGN VARIABLES
-   Change these to customize the look.
-   ============================================= */
+/* ═══════════════════════════════════════════════════
+   ALL THE KNOBS — only edit values inside this block.
+   Everything below this section drives itself from
+   these variables; you shouldn't need to touch it.
+   ═══════════════════════════════════════════════════ */
 
 :root {
-  /* Colors */
-  --green: #5d6439;
-  --paper: #ebe3d7;
 
-  /* Green border around the page */
-  --frame: 22px;
+  /* ── COLORS ──────────────────────────────────────── */
+  --green: #5d6439;   /* border, all logos, and text */
+  --paper: #ebe3d7;   /* inner card background */
 
-  /* Rounded corner size */
-  --corner: 28px;
+  /* ── BORDER ──────────────────────────────────────── */
+  --frame:  22px;     /* thickness of the green outer border */
+  --corner: 28px;     /* size of the diagonal corner notch */
 
-  /* Inner padding (scales smoothly between mobile and desktop) */
-  --pad-x: clamp(20px, 5vw, 64px);
-  --pad-y: clamp(28px, 5vh, 72px);
+  /* ── INNER PADDING ───────────────────────────────────
+     Breathing room between the border and the content.
+     Values shown as: mobile size → desktop size.        */
+  --pad-x: clamp(20px, 5vw, 64px);  /* left & right  (20px → 64px) */
+  --pad-y: clamp(28px, 5vh, 72px);  /* top & bottom  (28px → 72px) */
 
-  /* Center wordmark (main SHG logo) */
-  --wordmark-width: min(82vw, 1280px);
-  --wordmark-height: clamp(140px, 30vh, 320px);
+  /* ── MAIN SHG WORDMARK (big centered logo) ────────── */
+  --wordmark-width:  min(82vw, 1280px);           /* never wider than the screen */
+  --wordmark-height: clamp(140px, 30vh, 320px);   /* 140px → 320px */
 
-  /* Corner emblem */
-  --emblem-size: clamp(86px, 10vw, 150px);
+  /* ── EMBLEM (faint mark, top-right corner) ───────────
+     Size and position on desktop.
+     Increase a value to move it further from that edge. */
+  --emblem-size:       clamp(86px, 10vw, 150px);  /* 86px → 150px */
+  --emblem-from-top:   80px;   /* distance down from the top edge */
+  --emblem-from-right: 64px;   /* distance in from the right edge */
 
-  /* Bottom logo links */
-  --logo-height: clamp(58px, 6vw, 92px);
-  --logo-gap: clamp(24px, 2vw, 32px);
+  /* ── BOTTOM LOGO ROW ─────────────────────────────────
+     The four restaurant logos.                          */
+  --logo-height:       clamp(58px, 6vw, 92px);    /* 58px → 92px */
+  --logo-gap:          clamp(24px, 2vw, 32px);    /* gap between logos */
+  --logos-from-bottom: clamp(40px, 12vh, 160px);  /* distance from the bottom edge */
 
-  /* Per-logo scale tweaks (make individual logos bigger/smaller) */
-  --scale-kitchen: 1.12;
-  --scale-ella: 1.12;
+  /* ── PER-LOGO SIZE TWEAKS ─────────────────────────────
+     1.0 = normal.  1.2 = 20% bigger.  0.8 = 20% smaller. */
+  --scale-kitchen:  1.12;
+  --scale-ella:     1.12;
   --scale-sellands: 1.00;
-  --scale-obo: 0.95;
+  --scale-obo:      0.95;
 
-  /* Hover animation */
-  --hover-lift: 3px;
-  --hover-scale: 1.02;
+  /* ── HOVER EFFECT ─────────────────────────────────────
+     How logos respond when you mouse over them.          */
+  --hover-lift:  3px;   /* how far they float upward (pixels) */
+  --hover-scale: 1.02;  /* how much they grow — 1.05 = 5% bigger */
 
-  /* Phone notch safe areas */
+  /* ── HANDS OFF: phone notch compensation ─────────────
+     These pull in the OS safe area on notched phones.    */
   --safe-t: env(safe-area-inset-top, 0px);
   --safe-r: env(safe-area-inset-right, 0px);
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-l: env(safe-area-inset-left, 0px);
+
 }
 
 /* =============================================
@@ -156,8 +168,8 @@ body {
 
 .emblem {
   position: absolute;
-  top: calc(var(--pad-y) * 1.05 + var(--safe-t));
-  right: calc(var(--pad-x) + var(--safe-r));
+  top:   calc(var(--emblem-from-top)   + var(--safe-t));
+  right: calc(var(--emblem-from-right) + var(--safe-r));
   width: var(--emblem-size);
   height: var(--emblem-size);
   background: var(--green);
@@ -178,7 +190,7 @@ body {
   align-items: center;
   gap: var(--logo-gap);
   width: 100%;
-  padding-bottom: clamp(40px, 12vh, 160px);
+  padding-bottom: var(--logos-from-bottom);
 }
 
 .logoLink {
