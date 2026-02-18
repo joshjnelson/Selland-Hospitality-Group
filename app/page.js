@@ -9,6 +9,12 @@ export default function Page() {
   return (
     <main className="frame">
       <section className="canvas">
+        {/* Chamfered corners — SVG renderer gives sub-pixel AA at any DPR */}
+        <svg className="chamfer chamfer-tl" aria-hidden="true" viewBox="0 0 1 1" preserveAspectRatio="none"><polygon points="0,0 1,0 0,1"/></svg>
+        <svg className="chamfer chamfer-tr" aria-hidden="true" viewBox="0 0 1 1" preserveAspectRatio="none"><polygon points="0,0 1,0 1,1"/></svg>
+        <svg className="chamfer chamfer-bl" aria-hidden="true" viewBox="0 0 1 1" preserveAspectRatio="none"><polygon points="0,0 0,1 1,1"/></svg>
+        <svg className="chamfer chamfer-br" aria-hidden="true" viewBox="0 0 1 1" preserveAspectRatio="none"><polygon points="1,0 0,1 1,1"/></svg>
+
         <div className="heroWordmark">
           <div
             className="wordmark"

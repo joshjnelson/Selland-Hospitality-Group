@@ -100,14 +100,12 @@ body {
 /*
   Paper-colored content area with chamfered corners.
 
-  Corners are drawn with four gradient tiles — one per corner — each
-  painting a green triangle that matches the frame behind it. This is
-  fundamentally more reliable than clip-path, which is rasterized by
-  the GPU compositor and produces stair-stepping on Chrome/macOS
-  (especially at non-integer viewport widths on Retina screens).
-  CSS gradients go through the browser's paint pipeline, which properly
-  antialiases diagonal edges. The 0.5px feather on the stop gives the
-  diagonal a smooth sub-pixel transition without any blurring.
+  Corners are drawn with four inline SVG elements (one per corner),
+  each containing a triangle polygon. The SVG renderer applies
+  proper sub-pixel anti-aliasing to the diagonal edge regardless of
+  DPR or compositing layer — unlike clip-path (GPU-rasterised) or
+  CSS gradient tiles (feather too thin on 1× screens).
+  The SVGs read --green and --corner directly from CSS variables.
 */
 .canvas {
   position: relative;
@@ -118,14 +116,6 @@ body {
   overflow: hidden;
 
   background-color: var(--paper);
-  background-image:
-    linear-gradient(to bottom right, var(--green) calc(50% - 0.5px), transparent 50%),
-    linear-gradient(to bottom left,  var(--green) calc(50% - 0.5px), transparent 50%),
-    linear-gradient(to top right,    var(--green) calc(50% - 0.5px), transparent 50%),
-    linear-gradient(to top left,     var(--green) calc(50% - 0.5px), transparent 50%);
-  background-position: top left, top right, bottom left, bottom right;
-  background-size: var(--corner) var(--corner);
-  background-repeat: no-repeat;
 
   padding:
     calc(var(--pad-y) + var(--safe-t))
@@ -133,6 +123,19 @@ body {
     calc(var(--pad-y) + var(--safe-b))
     calc(var(--pad-x) + var(--safe-l));
 }
+
+/* Chamfered corner SVGs */
+.chamfer {
+  position: absolute;
+  width: var(--corner);
+  height: var(--corner);
+  pointer-events: none;
+  fill: var(--green);
+}
+.chamfer-tl { top: 0; left: 0; }
+.chamfer-tr { top: 0; right: 0; }
+.chamfer-bl { bottom: 0; left: 0; }
+.chamfer-br { bottom: 0; right: 0; }
 
 /* =============================================
    WORDMARK (main centered logo)
