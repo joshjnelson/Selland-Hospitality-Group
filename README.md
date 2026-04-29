@@ -1,5 +1,5 @@
 
-This is a "linktree" site for Selland Hospitality Group. You can see how to modify the code by looking athe comments in page.js, global.css, and layout.js
+This is a "linktree" site for Selland Hospitality Group. You can see how to modify the code by looking at the comments in page.js, global.css, and layout.js
 
 This is built on the [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
